@@ -1,0 +1,28 @@
+.:5353 {                                                                         # Binds Server to port 5353
+    log                                                                          # Logs all requests
+    bufsize 512
+    errors                                                                       # Enables Error Logging
+    log . {
+        class error
+    }
+    bind 127.0.0.1                                                               # Binds to the 127.0.0.1 Address
+    health {
+        lameduck 20s
+    }
+    ready                                                                        # Enables Readiness Endpoint (for ReadinessProbes)
+    
+    kubernetes cluster.local in-addr.arpa ip6.arpa {                             # Configures the Kuberentes integration. Plugin inspects Kubernetes API and updates DNS rules to match
+	kubeconfig /Users/michaelwasher/.kube/config                             # Kubeconfig used for authentication with the cluster
+	endpoint https://api.mwashersamsung.lab.upshift.rdu2.redhat.com:6443     # The Kubernetes API 
+        pods insecure 
+        fallthrough in-addr.arpa ip6.arpa
+    }
+    prometheus 127.0.0.1:9153                                                    # Enables the Prometheus Endpoint (for scraping Metrics) 
+    forward . /etc/resolv.conf {                                                 # Policy for forwarding traffic in accordance with /etc/resolv.conf          
+        policy sequential
+    }
+    cache 900 {                                                                  # Cache results for 6 minutes 
+        denial 9984 30
+    }
+    reload                                                                       # Automatically updates from changes with the Corefile 
+}
