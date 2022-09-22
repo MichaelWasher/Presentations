@@ -3,7 +3,11 @@
 
 source ./env_vars.sh
 
+export DEFAULT_ADMISSION_PLUGINS="NamespaceLifecycle,LimitRanger,ServiceAccount,TaintNodesByCondition,PodSecurity,Priority,DefaultTolerationSeconds,DefaultStorageClass,StorageObjectInUseProtection,PersistentVolumeClaimResize,RuntimeClass,CertificateApproval,CertificateSigning,CertificateSubjectRestriction,DefaultIngressClass,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota"
+
+
 "$KUBE_APISERVER"  \
+--disable-admission-plugins=${DEFAULT_ADMISSION_PLUGINS} \
 --advertise-address="${IP}" \
 --allow-privileged=true \
 --authorization-mode=AlwaysAllow \
