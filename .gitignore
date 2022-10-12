@@ -17,3 +17,7 @@ bin/
 *.crt
 *.key
 *.csr
+
+*.etcd/
+
+*/kube-apiserver
