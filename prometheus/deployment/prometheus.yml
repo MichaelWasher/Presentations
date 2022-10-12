@@ -1,0 +1,9 @@
+scrape_configs:
+  # Configuration for scraping Prometheus itself
+  - job_name: "prometheus"
+    static_configs:
+      - targets: ["localhost:9060"]
+  # Configuration for scraping Node-Exporter
+  - job_name: "node"
+    static_configs:
+      - targets: ["localhost:9100"]
