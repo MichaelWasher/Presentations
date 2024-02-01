@@ -15,3 +15,6 @@ export ETCD2_CLIENT_CERT_SERV=etcd-2/client-serving
 export ETCD0_PEER_CERT_SERV=etcd-0/peer-serving
 export ETCD1_PEER_CERT_SERV=etcd-1/peer-serving
 export ETCD2_PEER_CERT_SERV=etcd-2/peer-serving
+
+# ETCDCTL Certificates
+export ETCDCTL_CLIENT_CERT=etcdctl/etcdctl

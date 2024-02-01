@@ -3,54 +3,29 @@
 
 source ./env_vars.sh
 
-etcd \
-  --name=etcd0 \
-  --initial-cluster-state=new \
-  --log-level=debug \
-  --cert-file=${ETCD0_SERVER}.crt \
-  --key-file=${ETCD0_SERVER}.key \
-  --listen-peer-urls=https://127.0.0.1:2380 \
-  --initial-advertise-peer-urls=https://127.0.0.1:2380 \
-  --initial-cluster="etcd0=https://127.0.0.1:2380,etcd1=https://127.0.0.1:2381,etcd2=https://127.0.0.1:2382"  \
-  --peer-trusted-ca-file=${ETCD_CA}.crt \
-  --peer-key-file=${ETCD0_SERVER}.key \
-  --peer-cert-file=${ETCD0_SERVER}.crt \
-  --trusted-ca-file=${ETCD_CA}.crt \
-  --client-cert-auth \
-  --advertise-client-urls=https://127.0.0.1:2370 \
-  --listen-client-urls=https://127.0.0.1:2370  &
+# set -x
+for I in {0..2}; do
+  echo "Press enter to start ETCD instance ${I}"
+  read 
 
-sleep 3
-etcd \
-  --name=etcd1 \
-  --initial-cluster-state=new \
-  --cert-file=${ETCD1_SERVER}.crt \
-  --key-file=${ETCD1_SERVER}.key \
-  --listen-peer-urls=https://127.0.0.1:2381 \
-  --initial-advertise-peer-urls=https://127.0.0.1:2381 \
-  --initial-cluster="etcd0=https://127.0.0.1:2380,etcd1=https://127.0.0.1:2381,etcd2=https://127.0.0.1:2382"  \
-  --peer-trusted-ca-file=${ETCD_CA}.crt \
-  --peer-key-file=${ETCD1_SERVER}.key \
-  --peer-cert-file=${ETCD1_SERVER}.crt \
-  --trusted-ca-file=${ETCD_CA}.crt \
-  --client-cert-auth \
-  --advertise-client-urls=https://127.0.0.1:2371 \
-  --listen-client-urls=https://127.0.0.1:2371 &
+  cd "etcd-${I}"
+  etcd  --config-file=./etcd-config.yaml >etcd.log  2>&1 & 
+  cd ..
+  echo "ETCD ${I} Started."
+  echo "To review the log, see ./etcd-${I}/etcd.log"
+done
 
-sleep 3
-  etcd \
-  --name=etcd2 \
-  --initial-cluster-state=new \
-  --cert-file=${ETCD2_SERVER}.crt \
-  --key-file=${ETCD2_SERVER}.key \
-  --listen-peer-urls=https://127.0.0.1:2382 \
-  --initial-advertise-peer-urls=https://127.0.0.1:2382 \
-  --initial-cluster="etcd0=https://127.0.0.1:2380,etcd1=https://127.0.0.1:2381,etcd2=https://127.0.0.1:2382"  \
-  --peer-trusted-ca-file=${ETCD_CA}.crt \
-  --peer-key-file=${ETCD2_SERVER}.key \
-  --peer-cert-file=${ETCD2_SERVER}.crt \
-  --trusted-ca-file=${ETCD_CA}.crt \
-  --client-cert-auth \
-  --advertise-client-urls=https://127.0.0.1:2372 \
-  --listen-client-urls=https://127.0.0.1:2372 &
+echo "------------------------------"
+echo "All ETCD instances have started. To experiment with the ETCD cluster, the 'etcdctl' directory contains client certificates to use."
+echo "There is are some example ETCDCTL comands in the 'perform_query.sh' script. All ETCD instances should communicate using RAFT and queries to each of the instances should return the same result."
+echo "The ETCD instances are ready to be separated onto different Machines and provide redundancy for high availability." 
+echo "------------------------------"
 
+echo ""
+echo ""
+echo "To close the ETCD instances, close this script with 'ctrl + c'."
+echo "If this fails you may require cleaning up any remaining etcd processes."
+echo ""
+echo ""
+
+sleep 100000

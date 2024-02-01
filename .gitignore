@@ -23,4 +23,5 @@ bin/
 *.etcd/
 
 */kube-apiserver
-*/etcd-data-dir/
+*/etcd-data-dir/*
+*/etcd.log
