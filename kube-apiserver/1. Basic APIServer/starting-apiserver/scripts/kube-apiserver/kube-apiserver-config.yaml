@@ -1,0 +1,6 @@
+# For more information about the available configuration options for KubeApiServer, see the below link:
+# https://kubernetes.io/docs/reference/config-api/apiserver-config.v1/
+
+# The Config File used for managing th eKuberentes APIserver in OpenShift is the `--openshift-config` value
+# https://github.com/openshift/kubernetes/blob/307cfa6bd4b725ccf8a2dc061d6fbc399a891865/cmd/kube-apiserver/app/options/options.go#L158
+
