@@ -1,0 +1,59 @@
+# For More information about this file. 
+# Please review the example in the ETCD codebase
+# https://github.com/etcd-io/etcd/blob/main/etcd.conf.yml.sample
+
+# 'name' specifies the name of your etcd instance.
+name: etcd1
+
+# 'data-dir' is the directory where etcd will store its data and state information.
+data-dir: ./etcd-data-dir
+
+# 'listen-client-urls' is the URL on which the etcd server listens for client requests.
+# NOTE: `https` is used here instead of `http` in the previous example
+listen-client-urls: https://127.0.0.1:2371
+
+# 'listen-peer-urls' is the URL on which the etcd server listens for peer requests.
+listen-peer-urls: http://localhost:2381
+
+# 'advertise-client-urls' is the URL advertised to clients. It's typically the same as 'listen-client-urls'
+# NOTE: `https` is used here instead of `http` in the previous example
+advertise-client-urls: https://127.0.0.1:2371
+
+# List of this member's peer URLs to advertise to the rest of the cluster.
+# The URLs needed to be a comma-separated list.
+initial-advertise-peer-urls: http://localhost:2381
+
+# 'initial-cluster-state' indicates the initial state of the cluster.
+# 'new' means that this is a new cluster being formed.
+initial-cluster-state: new
+
+initial-clusterL: "etcd0=https://127.0.0.1:2380,etcd1=https://127.0.0.1:2381,etcd2=https://127.0.0.1:2382" 
+
+client-transport-security:
+    # 'cert-file' specifies the path to the server certificate file (TLS/SSL) used for secure communication with etcd.
+    cert-file: client-serving.crt
+
+    # 'key-file' points to the private key file corresponding to the server certificate.
+    key-file: client-serving.key
+
+    # 'trusted-ca-file' specifies the path to the certificate authority (CA) certificate file.
+    # The CA certificate is used to verify the authenticity of certificates presented by clients.
+    trusted-ca-file: client-ca.crt
+
+    # 'client-cert-auth' is a boolean (true or false) indicating whether client certificate authentication is required.
+    # When set to true, clients connecting to etcd must present valid client certificates for authentication. (mTLS)
+    client-cert-auth: true
+
+
+peer-transport-security:
+  # Path to the peer server TLS cert file.
+  cert-file: peer-serving.crt
+
+  # Path to the peer server TLS key file.
+  key-file: peer-serving.key
+
+  # Enable peer client cert authentication.
+  client-cert-auth: true
+
+  # Path to the peer server TLS trusted CA cert file.
+  trusted-ca-file: peer-ca.crt
