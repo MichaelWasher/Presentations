@@ -1,0 +1,21 @@
+# For More information about this file. 
+# Please review the example in the ETCD codebase
+# https://github.com/etcd-io/etcd/blob/main/etcd.conf.yml.sample
+
+# 'name' specifies the name of your etcd instance.
+name: my-etcd
+
+# 'data-dir' is the directory where etcd will store its data and state information.
+data-dir: ./etcd-data-dir
+
+# 'listen-client-urls' is the URL on which the etcd server listens for client requests.
+# In this case, it's set to listen on localhost (127.0.0.1) at port 2379.
+listen-client-urls: http://127.0.0.1:2379
+
+# 'advertise-client-urls' is the URL advertised to clients. It's typically the same as 'listen-client-urls'
+# and is used to tell clients how to reach the etcd server.
+advertise-client-urls: http://127.0.0.1:2379
+
+# 'initial-cluster-state' indicates the initial state of the cluster.
+# 'new' means that this is a new cluster being formed.
+initial-cluster-state: new

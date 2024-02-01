@@ -1,6 +1,12 @@
 # /bin/bash
 set -x
-source ./env_vars.sh
+
+# Setting variables
+export PKI="./pki"
+export CA=${PKI}/ca.crt
+export ETCD_CA=${PKI}/ca.crt
+export ETCD_SERVER_KEY=${PKI}/server.key
+export ETCD_SERVER_CERT=${PKI}/server.crt
 
 # Communicate with the ETCD using certificates
 ETCDCTL_API=3 etcdctl --endpoints 127.0.0.1:2379 \
