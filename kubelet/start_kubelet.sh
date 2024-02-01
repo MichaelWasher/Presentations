@@ -19,3 +19,5 @@
       --system-reserved=cpu=${SYSTEM_RESERVED_CPU},memory=${SYSTEM_RESERVED_MEMORY} \
       --v=${KUBELET_LOG_LEVEL}
 
+
+# kubelet Bootstrap configuration
