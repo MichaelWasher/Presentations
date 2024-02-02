@@ -1,0 +1,35 @@
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  annotations:
+    service.beta.openshift.io/inject-cabundle: "true"
+  labels:
+    app.kubernetes.io/component: controller
+    app.kubernetes.io/name: prometheus-operator
+  name: prometheusrules.openshift.io
+webhooks:
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    caBundle: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURVVENDQWptZ0F3SUJBZ0lJV01UN3k0bXFBdWN3RFFZSktvWklodmNOQVFFTEJRQXdOakUwTURJR0ExVUUKQXd3cmIzQmxibk5vYVdaMExYTmxjblpwWTJVdGMyVnlkbWx1WnkxemFXZHVaWEpBTVRZMk5UTXdOVFV5TWpBZQpGdzB5TWpFd01Ea3dPRFV5TURGYUZ3MHlOREV5TURjd09EVXlNREphTURZeE5EQXlCZ05WQkFNTUsyOXdaVzV6CmFHbG1kQzF6WlhKMmFXTmxMWE5sY25acGJtY3RjMmxuYm1WeVFERTJOalV6TURVMU1qSXdnZ0VpTUEwR0NTcUcKU0liM0RRRUJBUVVBQTRJQkR3QXdnZ0VLQW9JQkFRQ2hUVHZXTU5iUFJ5b1ZvTFV3YmlCYnI5UTZka2ZiNnJGKwpnV3lrZnZma0h4N1pSbTZ4VXBVbFQvT3pQblltMnZaRzFpR2pJcVZMT29TanpzYjlXRFNKZW1QelZreTRRR2R0Cm45Mm5jRG5NMG1FWUJvNGN1TERGVk1YZmYrZ3VSa0FCeGovY09LR3dvNk14Z0lPQm9ESGhyckN5eDZhSzV3bmEKVzJ6UVpkQ1FaMEI4TmZoamlCcXFRU1FEV24vR1NBT0N0bUR2QnVCVUZZeGNHZDZZSXBVckJwMklScWtSNWppNApZUE1qT1JBRTBxYk5wMVROY2tVZHdzaXl1RnVxZkExTWJtMkR6ZnZJZ1ZKQlBDM1EvK0dGVEZCKzFjS2UvcUVkCnVhT2tHVSt6VHRmMDVvd2crZjQyODZTdDRrYzBILzdkY2xacFN3Z1RKZzVnb3VaSnpONTlBZ01CQUFHall6QmgKTUE0R0ExVWREd0VCL3dRRUF3SUNwREFQQmdOVkhSTUJBZjhFQlRBREFRSC9NQjBHQTFVZERnUVdCQlRSSVFBQgpEekdqVUI0UkN2OGsrS0ZMOXBSRGNUQWZCZ05WSFNNRUdEQVdnQlRSSVFBQkR6R2pVQjRSQ3Y4aytLRkw5cFJECmNUQU5CZ2txaGtpRzl3MEJBUXNGQUFPQ0FRRUFXdjNOZG5oVjF4SHZiV1ptT3YwSE5yOFEwdFpQQlZFa0tkTXgKTDBucDRxOC9qMHdPb3pWMHA1U0ozenZhUnBMeDFtWWM0WHZlRnQ2QUdDdU9Xb2Y5c08yd0IrdlJiM0o4WG5NVgp3TVQyYVhkRFJHK1BCdUR3V25ELy9wN0FSdDliQnAxRkRCb0t1NDhaVE8wd2JGYjByc05kN0toQnpqeTN0R0V6Cm41NXMxOFRYVFZZSFNySGVaQTUraXZRcFNRQTFkTlorOHZPWVFOTmlGZG4yekVzQnlQVTRYSmoyVUY2UGN6WFoKZUdCVFFqa2wyeDVuUHpKV3hyVGErcXlhTWNCZ2Y3Qzlrb09yY0J5Wi9JL3RjVTM2S2RkY3BvcU53dUR2QTFWZgowK1ViaGQ5aDVEUFRORmc1QkdjZnc3Ykw1ODl4ekxiWEprdHFGSFpZci9aMVBmUlpKUT09Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+    service:
+      name: prometheus-operator
+      namespace: openshift-monitoring
+      path: /admission-prometheusrules/validate
+      port: 8080
+  failurePolicy: Ignore
+  matchPolicy: Equivalent
+  name: prometheusrules.openshift.io
+  rules:
+  - apiGroups:
+    - monitoring.coreos.com
+    apiVersions:
+    - v1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - prometheusrules
+    scope: Namespaced
+  sideEffects: None
+  timeoutSeconds: 5
